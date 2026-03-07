@@ -118,7 +118,7 @@ IMPORTANT RULES:
 - Do NOT remove certifications if exist.
 - Ensure the resume remains exactly 1 page filled.
 - Do NOT add any new projects or new experiences.
-- Only modify or optimize the content inside the existing projects/experience if needed.
+- Only modify or optimize the content inside the existing projects/experience 
 - There should be no empty spaces in the resume.
 - Keep everything in one single LaTeX code block.
 - Do NOT alter LaTeX commands or structure.
@@ -127,12 +127,6 @@ IMPORTANT RULES:
 `;
   } else {
     basePrompt += `
-Please:
-1. Improve the formatting and structure
-2. Ensure all commands are correct
-3. Add helpful comments where appropriate
-4. Maintain the original content and meaning
-5. Ensure the output is compilable and follows academic standards
 `;
   }
 
