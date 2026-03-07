@@ -30,7 +30,7 @@ An AI-powered LaTeX resume tailoring tool that optimizes your professional docum
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/latex-editor-ai.git
+   git clone https://github.com/omkaarsavant/resume-optimizer-latex.git
    cd latex-editor-ai
    ```
 
