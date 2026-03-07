@@ -15,7 +15,7 @@ An AI-powered LaTeX resume tailoring tool that optimizes your professional docum
 
 - **Frontend**: React, Vite, Tailwind CSS, Shadcn UI, Lucide Icons.
 - **Backend**: Node.js, Express, tRPC.
-- **AI**: Google Generative AI (Gemini 1.5 Pro / 2.0 / 3.1 Flash-Lite).
+- **AI**: Google Generative AI (Gemini 3.1 Flash-Lite).
 - **Editor**: Monaco Editor.
 
 ## 🚀 Getting Started
