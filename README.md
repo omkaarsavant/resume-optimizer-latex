@@ -2,7 +2,6 @@
 
 An AI-powered LaTeX resume tailoring tool that optimizes your professional documents for specific job descriptions. 
 
-![Project Banner](client/src/assets/banner.png) <!-- Ensure you have a banner or update this link -->
 
 ## ✨ Features
 
