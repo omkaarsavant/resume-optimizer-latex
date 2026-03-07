@@ -3,10 +3,10 @@ import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 import * as trpcExpress from '@trpc/server/adapters/express';
-import { requestLogger, errorHandler, corsMiddleware, rateLimitMiddleware } from "./middleware";
-import { createRouter } from "./router";
-import { getGeminiClient } from "./services/gemini";
-import { validateLaTeXCode } from "./utils/latexValidator";
+import { requestLogger, errorHandler, corsMiddleware, rateLimitMiddleware } from "./middleware.js";
+import { createRouter } from "./router.js";
+import { getGeminiClient } from "./services/gemini.js";
+import { validateLaTeXCode } from "./utils/latexValidator.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

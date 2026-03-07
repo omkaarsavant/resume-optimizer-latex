@@ -1,7 +1,7 @@
 import { initTRPC } from '@trpc/server';
 import { z } from 'zod';
-import { getGeminiClient } from './services/gemini';
-import { validateLaTeXCode } from './utils/latexValidator';
+import { getGeminiClient } from './services/gemini.js';
+import { validateLaTeXCode } from './utils/latexValidator.js';
 
 const t = initTRPC.create();
 
