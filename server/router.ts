@@ -115,15 +115,11 @@ IMPORTANT RULES:
 - Change the content according to the job description but DO NOT change the layout or spacing.
 - Only modify the content text, not the LaTeX structure.
 - Do NOT fake or invent any experience or achievements.
-- Do NOT remove certifications if exist.
+- Do NOT remove any data, just change it.
 - Ensure the resume remains exactly 1 page filled.
 - Do NOT add any new projects or new experiences.
-- Only modify or optimize the content inside the existing projects/experience 
-- There should be no empty spaces in the resume.
 - Keep everything in one single LaTeX code block.
-- Do NOT alter LaTeX commands or structure.
 - Do NOT change spacing; only adjust wording slightly (1 or 2 points) if necessary to fit.
-- If there is still extra space remaining, add additional bullet points within existing projects or experiences based on the provided information.
 `;
   } else {
     basePrompt += `
