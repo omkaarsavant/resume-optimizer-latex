@@ -89,183 +89,90 @@ ${msg.role === 'user' ? 'User:' : 'Assistant:'}
 ${msg.content}
 `).join('');
 
-  let basePrompt = `
-  Think carefully but do NOT output reasoning. Only output the final optimized LaTeX resume.
-You are an expert LaTeX editor and formatter. Your task is to improve and modify LaTeX documents according to user requests.
-You are also a Brutally Honest Job Fit Analyzer, with expertise in recruitment, HR practices, and industry hiring standards. You specialize in providing candid assessments of job fit without sugar-coating the truth. The job market is highly competitive, with employers typically receiving hundreds of applications for a single position. Most applicants believe they are qualified when they often lack critical requirements. Many job seekers waste time applying to positions where they have minimal chances instead of focusing on better matches or addressing skill gaps. Honest feedback is rare but valuable for career development. Based on the following job description, and my attached resume latex code:
-Given the following LaTeX code:
+  // 1. Core Persona & Context
+  let prompt = `You are an expert LaTeX resume optimizer and ATS specialist. 
+Your goal is to transform the provided LaTeX resume into a professional, high-impact version while maintaining strict formatting.
+
+### INPUT LATEX CODE:
 ${latexCode}
+
+### GLOBAL RULES:
+- RETURN THE ENTIRE LATEX CODE ONLY.
+- Minimum 3 bullet points for each
+- DO NOT wrap the output in markdown code blocks (\`\`\`latex ... \`\`\`).
+- DO NOT include any conversational text before or after the code.
+- The output must start directly with the first line of the LaTeX document (e.g., \\documentclass).
+- DO NOT invent or fabricate facts, metrics, or experiences.
+- Maintain the EXACT original layout, spacing, and LaTeX structure. 
+- The resume MUST remain exactly 1 page. Do NOT add new sections or remove certifications.
 `;
 
-  if (modificationPrompt) {
-    basePrompt += `
-The user has requested the following SPECIFIC modifications:
-"${modificationPrompt}"
-`;
-  } else if (jobDescription) {
-    basePrompt += `
-The user is tailoring this LaTeX document (likely a resume) for the following job description:
+  // 2. Specific Instructions
+  prompt += `\n### TASK INSTRUCTIONS:\n`;
+
+  if (jobDescription) {
+    prompt += `
+- OPTIMIZE for the following Job Description:
 "${jobDescription}"
-
-
-Strict Formatting Rules
-
-Do NOT modify the LaTeX structure.
-
-Do not change commands, sections, spacing, margins, formatting, or layout.
-
-Only edit the text content inside the bullet points or descriptions.
-
-Return the entire resume inside ONE single LaTeX code block.
-
-Do NOT change the page layout.
-
-The resume must remain exactly 1 page.
-
-Do NOT remove or add sections.
-
-Do NOT remove certifications.
-
-Content Modification Rules
-
-Do NOT invent or fabricate experience, tools, results, or metrics.
-
-Do NOT add new projects or work experiences.
-
-You may only:
-
-Rewrite bullet points
-
-Improve wording
-
-Expand details based on existing information
-
-Add additional bullet points only inside existing projects or roles if space allows
-
-The new resume must contain at least as much content as the original resume.
-
-The rewritten content must NOT be identical to the original wording.
-
-ATS Optimization Requirements
-
-Optimize the resume for Applicant Tracking Systems (ATS).
-
-Naturally incorporate keywords and phrases from the provided job description, including:
-
-required technologies
-
-tools
-
-methodologies
-
-core competencies
-
-Ensure keywords are integrated naturally, not keyword-stuffed.
-
-Bullet Point Optimization
-
-Rewrite bullet points to be results-oriented and impact-focused.
-
-Use strong action verbs such as:
-
-Developed
-
-Engineered
-
-Implemented
-
-Optimized
-
-Automated
-
-Designed
-
-Reduced
-
-Improved
-
-Scaled
-
-Wherever possible:
-
-Include quantifiable results
-
-Mention tools or technologies used
-
-Show impact or outcome
-
-Example transformation:
-
-Before:
-
-Built a web application using React and Node.
-
-After:
-
-Developed a full-stack web application using React, Node.js, and REST APIs, improving user interaction speed and reducing manual workflows.
-
-Space Optimization Rule
-
-If additional space remains on the page:
-
-Add more detailed bullet points within existing projects or roles.
-
-Expand technical details, technologies, architecture, or measurable outcomes.
-
-Do not add new experiences.
-
-Final Output Requirements
-
-The output must:
-
-Maintain exact LaTeX formatting
-
-Remain exactly one page
-
-Be ATS-optimized
-
-Be rewritten with improved impact and clarity
-
-Be returned entirely within one LaTeX code block
-`;
-  } else {
-    basePrompt += `
+- Naturally incorporate relevant keywords and core competencies.
+- Focus on measurable accomplishments and results-oriented bullet points using strong action verbs.
 `;
   }
 
-  basePrompt += `
-IMPORTANT:
-- Do NOT wrap the output in markdown code blocks.
-- Do NOT include \`\`\`latex or \`\`\`.
-- The output must start directly with the LaTeX code (e.g., \\documentclass or the first line of the document).
+  if (modificationPrompt) {
+    prompt += `
+- APPLY THESE SPECIFIC CHANGES:
+"${modificationPrompt}"
+- Prioritize these requests while still maintaining professional standards.
+`;
+  }
+
+  // Fallback if no specific instructions provided
+  if (!jobDescription && !modificationPrompt) {
+    prompt += `
+- Improve the wording and impact of all bullet points.
+- Ensure the resume is polished, professional, and results-oriented.
+- Optimize for ATS readability within the existing structure.
+`;
+  }
+
+  // 3. Strict Formatting & Style Rules (Reiteration for emphasis)
+  prompt += `
+\n### STRICT FORMATTING RULES:
+- Edit ONLY the text content inside bullet points or descriptions.
+- Do NOT change commands, sections, margins, or formatting.
+- Ensure the new resume contains at least as much content as the original.
+- The rewritten content must NOT be identical to the original wording; improve the impact significantly.
+- If there is extra space, expand technical details or add bullet points to existing roles.
 `;
 
+  // 4. Mode Specific Additions
   if (retry) {
-    return `
+    prompt = `
 ${context}
 
 IMPORTANT: The previous output was not quite right. 
-Please generate a DIFFERENT variation of the LaTeX code. 
-Try alternative phrasings, slightly different structures, or different ways to highlight the same information. 
-Make sure this version is distinct from the previous one in the conversation history.
+Please generate a DIFFERENT variation. Try alternative phrasings and different ways to highlight results. 
+Make sure this version is distinct from the previous one.
 
-${basePrompt}
+${prompt}
+`;
+  } else if (shouldContinue) {
+    prompt = `
+${context}
+
+CONTINUE MODE: Refine and build upon the previous modifications based on the new instructions below.
+
+${prompt}
+`;
+  } else {
+    prompt = `
+${context}
+
+${prompt}
 `;
   }
 
-  if (shouldContinue) {
-    return `
-${context}
-
-Continue mode: Further improve and refine the LaTeX code based on previous modifications and any instructions provided above.
-
-${basePrompt}
-`;
-  }
-
-  return `
-${context}
-
-${basePrompt}
-`;
+  return prompt;
 }
+
