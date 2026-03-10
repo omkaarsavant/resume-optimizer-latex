@@ -1,6 +1,4 @@
 import { useState, useCallback } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import LatexEditor from "@/components/LatexEditor";
 import OutputViewer from "@/components/OutputViewer";
 import ControlButtons from "@/components/ControlButtons";
@@ -242,51 +240,70 @@ University of Excellence \\hfill City, State
   }, [outputCode]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Navbar />
-      <main className="flex-1 container py-8">
-        <div className="mb-8">
-          <h1 className="mb-2 text-foreground">LaTeX Editor AI</h1>
-          <p className="text-muted-foreground">
-            Paste your LaTeX code and a job description to tailor your resume.
+    <div className="min-h-screen flex flex-col bg-background/50 relative overflow-hidden">
+      <div className="mesh-bg" />
+      <div className="noise-overlay" />
+
+      <main className="flex-1 container pt-12 pb-24 relative z-10">
+        <div className="mb-16 text-center">
+          <h1 className="mb-4 text-5xl lg:text-6xl font-bold tracking-tight text-foreground bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
+            LaTeX Editor AI
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
+            Precision engineering for your professional LaTeX documents.
+            Refine, format, and perfect with AI-driven intelligence.
           </p>
         </div>
 
         {/* Editor Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8" style={{ minHeight: "750px" }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8" style={{ minHeight: "750px" }}>
           {/* Left: Input Editor & Job Description */}
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col">
-              <h2 className="text-lg font-semibold text-foreground mb-4">
-                Job Description (Target Role)
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col glass p-6 rounded-2xl shadow-xl shadow-black/5">
+              <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Job Description
               </h2>
               <textarea
-                className="w-full p-4 rounded-md border border-border bg-input text-foreground focus:ring-2 focus:ring-primary outline-none transition-all resize-none font-sans"
-                style={{ height: "180px" }}
+                className="w-full p-4 rounded-xl border border-border/50 bg-background/40 text-foreground focus:ring-2 focus:ring-primary/40 outline-none transition-all resize-none font-sans min-h-[160px]"
                 placeholder="Paste the job description here to tailor your resume..."
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
               />
             </div>
 
-            <div className="flex flex-col flex-1 min-h-0">
-              <h2 className="text-lg font-semibold text-foreground mb-4">
-                LaTeX Input
+            <div className="flex flex-col flex-1 min-h-0 glass p-6 rounded-2xl shadow-xl shadow-black/5">
+              <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-accent" />
+                LaTeX Source
               </h2>
-              <div className="flex-1">
+              <div className="flex-1 rounded-xl overflow-hidden border border-border/50">
                 <LatexEditor value={inputCode} onChange={setInputCode} />
               </div>
             </div>
           </div>
 
           {/* Right: Output Viewer */}
-          <div className="flex flex-col h-full">
-            <OutputViewer content={outputCode} isLoading={isLoading} />
+          <div className="flex flex-col h-full glass p-6 rounded-2xl shadow-xl shadow-black/5">
+            <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                Optimized Output
+              </div>
+              {isLoading && (
+                <div className="text-xs font-medium text-primary animate-pulse uppercase tracking-widest">
+                  Processing...
+                </div>
+              )}
+            </h2>
+            <div className="flex-1 min-h-0 rounded-xl overflow-hidden border border-border/50">
+              <OutputViewer content={outputCode} isLoading={isLoading} />
+            </div>
           </div>
         </div>
 
-        {/* Control Buttons */}
-        <div className="bg-card border border-border rounded-lg p-6 space-y-4">
+        {/* Control Buttons Area */}
+        <div className="glass border border-border/50 rounded-2xl p-8 shadow-2xl shadow-black/5 mb-12">
           <ControlButtons
             onGenerate={handleGenerate}
             onRetry={handleRetry}
@@ -326,7 +343,6 @@ University of Excellence \\hfill City, State
           )}
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
