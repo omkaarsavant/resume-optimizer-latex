@@ -115,25 +115,19 @@ IMPORTANT RULES:
 - Just adjust the content, make it more detailed.
 - Based on this Job description, rewrite or restructure my work history to better align with the core skills and qualifications they’re looking for Focus especially on aligning language and phrasing.
 - Change the content according to the job description but DO NOT change the layout or spacing.
-- Make sure each project have atleast 3 detailed bullet points
-- Do NOT fake or invent any experience or projects.
-- Do NOT remove anything just modify.
+- Only modify the content text, not the LaTeX structure.
+- Do NOT fake or invent any experience or achievements.
+- Do NOT remove certifications if exist.
 - Ensure the resume remains exactly 1 page filled.
-- Do not change Name, Education, and Contact Information.
+- Do NOT add any new projects or new experiences.
+- Only modify or optimize the content inside the existing projects/experience if needed.
 - There should be no empty spaces in the resume.
 - Keep everything in one single LaTeX code block.
-- Do NOT alter LaTeX commands or structure.
 - Do NOT change spacing; only adjust wording slightly (1 or 2 points) if necessary to fit.
-
+- If there is still extra space remaining, add additional bullet points within existing projects or experiences based on the provided information.
 `;
   } else {
     basePrompt += `
-Please:
-1. Improve the formatting and structure
-2. Ensure all commands are correct
-3. Add helpful comments where appropriate
-4. Maintain the original content and meaning
-5. Ensure the output is compilable and follows academic standards
 `;
   }
 
